@@ -87,6 +87,6 @@ canvas = Canvas(30, 30)
 scribe = TerminalScribe(canvas)
 
 # Draw a small square
-scribe.drawSquare(5)
+scribe.drawSquare(10)
 
 
