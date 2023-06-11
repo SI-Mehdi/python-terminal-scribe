@@ -82,3 +82,5 @@ scribe.setDegrees(135)
 for i in range(30):
     scribe.forward()
 
+print(scribe.direction)
+
