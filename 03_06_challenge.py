@@ -30,7 +30,7 @@ class TerminalScribe:
         self.mark = '*'
         self.framerate = 0.05
         self.pos = [0, 0]
-        self.direction = [0, 1]
+        self.direction = [0, 1] # Star facing down by default
     
     def setDirection(self, angle):
         angle_rad = math.radians(angle)
