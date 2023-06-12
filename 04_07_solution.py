@@ -80,7 +80,7 @@ class TerminalScribe:
         time.sleep(self.framerate)
 
 
-canvas = Canvas(30, 30)
+canvas = Canvas(50, 50)
 
 scribes = [
     {'degrees': 30, 'position': [15,15], 'instructions': [
