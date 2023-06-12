@@ -37,6 +37,9 @@ class TerminalScribe:
     def setDegrees(self, degrees):
         radians = (degrees/180) * math.pi 
         self.direction = [math.sin(radians), -math.cos(radians)]
+    
+    def setPosition(self, position):
+        self.pos = position
 
     def up(self):
         self.direction = [0, -1]
@@ -76,9 +79,41 @@ class TerminalScribe:
         self.canvas.print()
         time.sleep(self.framerate)
 
-canvas = Canvas(30, 30)
+canvas = Canvas(50, 50)
+
+scribeDicts = [{'degrees': 12, 'position': [5, 5], 'instructions': [('forward', 5), ('right', 3)]},
+               {'degrees': 45, 'position': [1, 1], 'instructions': [('down', 2), ('right', 2)]},
+               {'degrees': 90, 'position': [10, 10], 'instructions': [('left', 9), ('right', 3)]}]
+
+for dict in scribeDicts:
+    dict['scribe'] = TerminalScribe(canvas)
+    dict['scribe'].setDegrees(dict['degrees'])
+    dict['scribe'].setPosition(dict['position'])
+    
+    instructions = dict['instructions']
+    for pair in instructions:
+        if pair[0] == 'forward':
+            for i in range(pair[1]):
+                dict['scribe'].forward()
+        elif pair[0] == 'up':
+            for i in range(pair[1]):
+                dict['scribe'].up()
+        elif pair[0] == 'down':
+            for i in range(pair[1]):
+                dict['scribe'].down()
+        elif pair[0] == 'left':
+            for i in range(pair[1]):
+                dict['scribe'].left()
+        elif pair[0] == 'right':
+            for i in range(pair[1]):
+                dict['scribe'].right()
+
+
 scribe = TerminalScribe(canvas)
 scribe.setDegrees(135)
-for i in range(30):
+for i in range(25):
     scribe.forward()
+    
+scribe = TerminalScribe(canvas)
+scribe.drawSquare(15)
 
