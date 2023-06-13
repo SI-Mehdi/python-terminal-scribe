@@ -98,7 +98,7 @@ class TerminalScribe:
 
 canvas = Canvas(30, 30)
 scribe = TerminalScribe(canvas)
-scribe.setDegrees(150)
+scribe.setDegrees(155)
 scribe.forward(100)
 
 
