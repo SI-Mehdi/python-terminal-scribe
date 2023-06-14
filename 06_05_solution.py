@@ -108,10 +108,17 @@ def sine(x):
 def cosine(x):
     return 5*math.cos(x/4) + 10
 
+def quadratic(x):
+    return x*x + 1
+
+def linear(x):
+    return x + 1
 
 canvas = Canvas(30, 30)
 scribe = TerminalScribe(canvas)
 scribe.plotX(sine)
 scribe.plotX(cosine)
+scribe.plotX(linear)
+scribe.plotX(quadratic)
 
 

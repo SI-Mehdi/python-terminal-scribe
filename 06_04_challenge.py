@@ -94,11 +94,25 @@ class TerminalScribe:
         self.canvas.setPos(self.pos, colored(self.mark, 'red'))
         self.canvas.print()
         time.sleep(self.framerate)
+    
+    def plotPoint(self, function):
+        for x in range(self.canvas._x):
+            point = [x, function(x)]
+            if point[1] and not self.canvas.hitsWall(point):
+                self.draw(point)
 
 
-canvas = Canvas(30, 30)
+def quadratic(x):
+    return x*x + 1
+
+def linear(x):
+    return x + 1
+
+canvas = Canvas(50, 50)
 scribe = TerminalScribe(canvas)
-scribe.setDegrees(150)
-scribe.forward(100)
+# scribe.setDegrees(150)
+# scribe.forward(100)
+scribe.plotPoint(linear)
+scribe.plotPoint(quadratic)
 
 
