@@ -153,7 +153,7 @@ robotScribe = RobotScribe(canvas, color='blue')
 robotScribe.drawSquare(10)
 
 randomScribe = RandomWalkScribe(canvas, color='green', pos=(0, 0))
-randomScribe.forward(1000)
+randomScribe.forward(200)
 
 
 
