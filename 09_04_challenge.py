@@ -3,6 +3,7 @@ import time
 from termcolor import colored, COLORS
 import math 
 import random
+import threading
 
 class TerminalScribeException(Exception):
     def __init__(self, message=''):
@@ -44,9 +45,16 @@ class Canvas:
         max_moves = max([len(scribe.moves) for scribe in self.scribes])
         for i in range(max_moves):
             for scribe in self.scribes:
+                threads = [] # All moves for the scribe are put in its own thread, resets for each scribe
                 if len(scribe.moves) > i:
                     args = scribe.moves[i][1]+[self]
-                    scribe.moves[i][0](*args)
+                    thread = threading.Thread(target=scribe.moves[i][0], args=args) # moves are a pair, first is function, second is args for the function
+                    threads.append(thread)
+                # these loops are skipped if list is empty
+                for thread in threads:
+                    thread.start()
+                for thread in threads:
+                    thread.join()
             self.print()
             time.sleep(self.framerate)
 

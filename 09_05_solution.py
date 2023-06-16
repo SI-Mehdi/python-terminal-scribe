@@ -50,7 +50,7 @@ class Canvas:
                 if len(scribe.moves) > i:
                     args = scribe.moves[i][1]+[self]
                     threads.append(Thread(target=scribe.moves[i][0], args=args))
-                [thread.start() for thread in threads]
+                [thread.start() for thread in threads] # list comprehensions instead of for loops 
                 [thread.join() for thread in threads]
             self.print()
             time.sleep(self.framerate)
