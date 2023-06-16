@@ -1,8 +1,15 @@
 import os
 import time
-from termcolor import colored
+from termcolor import colored, COLORS
 import math 
 import random
+
+def check_number(x):
+    return isinstance(x, (int, float, complex)) and not isinstance(x, bool)
+
+class ScribeException(Exception):
+    def __init__(self, message=''):
+        super().__init__(f'ERROR: {message}')
 
 class Canvas:
     def __init__(self, width, height):
@@ -52,12 +59,36 @@ class CanvasAxis(Canvas):
 
 class TerminalScribe:
     def __init__(self, canvas, color='red', mark='*', trail='.', pos=(0, 0), framerate=.05, direction=[0, 1]):
+        if not issubclass(type(canvas), Canvas):
+            raise ScribeException("Provided canvas is not a Canvas or subclass of Canvas")
         self.canvas = canvas
+        
+        if not isinstance(trail, str):
+            raise ScribeException("Trails must be a string!")
+        if len(trail) != 1:
+            raise ScribeException("Trails must be a single character")
         self.trail = trail
+        
+        if not isinstance(mark, str):
+            raise ScribeException("Marks must be a string!")
+        if len(mark) != 1:
+            raise ScribeException("Marks must be a single character")
         self.mark = mark
+        
+        if not check_number(framerate):
+            raise ScribeException("Framerate must be a number")
         self.framerate = framerate
+        
+        if len(pos) != 2 or not check_number(pos[0]) or not check_number(pos[1]):
+            raise ScribeException("Position must be a pair of 2 numbers e.g. (2,3)")
         self.pos = pos
+        
+        if color not in COLORS:
+            raise ScribeException(f'{color} is an invalid colour. Available colours are: ' + ", ".join(list(COLORS.keys()))) 
         self.color=color
+        
+        if len(direction) != 2 or not check_number(direction[0]) or not check_number(direction[1]):
+            raise ScribeException("Direction must be a list of 2 numbers e.g. [0,1]")
         self.direction = direction
 
     def setPosition(self, pos):
@@ -153,7 +184,9 @@ robotScribe = RobotScribe(canvas, color='blue')
 robotScribe.drawSquare(10)
 
 randomScribe = RandomWalkScribe(canvas, color='green', pos=(0, 0))
-randomScribe.forward(1000)
+randomScribe.forward(100)
+
+wrongScribe = RobotScribe(canvas, color="indigo")
 
 
 
