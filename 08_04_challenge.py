@@ -1,6 +1,6 @@
 import os
 import time
-from termcolor import colored
+from termcolor import colored, COLORS
 import math 
 import random
 
@@ -83,6 +83,8 @@ class TerminalScribe:
             raise ScribeException("Position must be a pair of 2 numbers e.g. (2,3)")
         self.pos = pos
         
+        if color not in COLORS:
+            raise ScribeException(f'{color} is an invalid colour. Available colours are: ' + ", ".join(list(COLORS.keys()))) 
         self.color=color
         
         if len(direction) != 2 or not check_number(direction[0]) or not check_number(direction[1]):
@@ -184,7 +186,7 @@ robotScribe.drawSquare(10)
 randomScribe = RandomWalkScribe(canvas, color='green', pos=(0, 0))
 randomScribe.forward(100)
 
-wrongScribe = RobotScribe(plotScribe)
+wrongScribe = RobotScribe(canvas, color="indigo")
 
 
 
