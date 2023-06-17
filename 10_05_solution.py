@@ -316,6 +316,6 @@ robotScribe.drawSquare(20)
 canvas = CanvasAxis(30, 30, scribes=[scribe, robotScribe])
 
 canvas.toFile('solution_file')
-
+# canvas.toFile('test')
 newCanvas = Canvas.fromFile('solution_file')
 newCanvas.go()

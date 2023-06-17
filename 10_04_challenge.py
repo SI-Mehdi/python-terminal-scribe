@@ -5,6 +5,7 @@ import math
 import random
 from threading import Thread
 from inspect import getmembers, ismethod
+import json
 
 class TerminalScribeException(Exception):
     def __init__(self, message=''):
@@ -48,6 +49,22 @@ class Canvas:
         canvas = globals()[data.get('classname')](data.get('x'), data.get('y'), scribes=[globals()[scribe.get('classname')].fromDict(scribe) for scribe in data.get('scribes')])
         canvas._canvas = data.get('canvas')
         return canvas
+    
+    def toFile(self, filename):
+        data = self.toDict()
+        with open(filename + ".json", "w") as file:
+            file.write(json.dumps(data))
+    
+    def fromFile(filename):
+        # Remove self to create class method, not looking for object
+        try:
+            with open(filename + ".json", "r") as file:
+                data = json.loads(file.readline())
+                return Canvas.fromDict(data)
+        except:
+            raise TerminalScribeException(f'The file: {filename}.json was invalid')
+                
+        
 
     def hitsVerticalWall(self, point):
         return round(point[0]) < 0 or round(point[0]) >= self._x
@@ -151,7 +168,21 @@ class TerminalScribe:
     def _movesFromDict(self, movesData):
         bound_methods = {key: val for key, val in getmembers(self, predicate=ismethod)}
         return [[bound_methods[name], args] for name, args in movesData]
-
+    
+    def toFile(self, filename):
+        data = self.toDict()
+        with open(filename + ".json", "w") as file:
+            file.write(json.dumps(data))
+    
+    def fromFile(filename):
+        # Remove self to create class method, not looking for object
+        try:
+            with open(filename + ".json", "r") as file:
+                data = json.loads(file.readline()) # Expecting JSON in first line
+                return TerminalScribe.fromDict(data)
+        except:
+            raise TerminalScribeException(f'The file: {filename}.json was invalid')
+    
     def _setPosition(self, pos, _):
         self.pos = pos
 
@@ -297,6 +328,8 @@ def circleBottom(x):
         return center+math.sqrt(radius**2 - (x-center)**2)
 
 scribe = TerminalScribe(color='green')
+#scribe.fromFile("testFil")
+scribe.toFile("testFile")
 scribe.forward(10)
 robotScribe = RobotScribe(color='yellow')
 robotScribe.drawSquare(20)
