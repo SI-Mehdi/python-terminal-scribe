@@ -56,7 +56,7 @@ class Canvas:
             file.write(json.dumps(data))
     
     def fromFile(filename):
-        # Remove self to create class method, not looking for object
+        # Remove self to create static method, not looking for object
         try:
             with open(filename + ".json", "r") as file:
                 data = json.loads(file.readline())
@@ -175,7 +175,7 @@ class TerminalScribe:
             file.write(json.dumps(data))
     
     def fromFile(filename):
-        # Remove self to create class method, not looking for object
+        # Remove self to create static method, not looking for object
         try:
             with open(filename + ".json", "r") as file:
                 data = json.loads(file.readline()) # Expecting JSON in first line
